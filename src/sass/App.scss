@@ -1,1 +1,76 @@
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
+$night-blue: #6f69ac;
+$gray: #2d2d2d;
+$light-gray: #373737;
+$light-blue: #37384c;
+$black: #0c0e1b;
+$text: #c9ccea;
+
+.bg-back {
+  background-color: $gray;
+}
+
+.bg-black {
+  background-color: $black;
+  color: $text;
+}
+
+.bg-back-light {
+  background-color: $light-gray;
+}
+
+.bg-night {
+  background-color: $night-blue;
+}
+
+.text-gray {
+  color: $text;
+}
+
+.active-labels {
+  color: #0c0e1b;
+  background-color: #fe6f6b;
+}
+
+.time-wrapper {
+  height: 13.3rem;
+  width: 13.3rem;
+  color: #efefef;
+  background: #151932;
+  font-size: 3.5rem;
+  box-shadow: 1rem 1.5rem 2rem rgba(0, 0, 0, 0.6);
+}
+
+button {
+  color: #efefef;
+  font-size: 0.95rem;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 3rem;
+  margin: 0.2rem;
+  background: #0c0e1b;
+  min-width: 80px;
+  cursor: pointer;
+}
+
+.button-wrapper button.active {
+  color: #0c0e1b;
+  background-color: #c9ccea;
+  border: 1px solid #0c0e1b;
+}
+.form-container {
+  text-align: center;
+}
+.input-wrapper {
+  margin: 1.5rem;
+}
+.input {
+  color: $text;
+  height: 120px;
+  width: 120px;
+  background-color: $light-gray;
+  border: none;
+  margin-right: 0.3rem;
+  font-size: 22px;
+}
