@@ -1,23 +1,83 @@
-import logo from './logo.svg';
+import { Fragment, useContext } from 'react';
 import './App.css';
 
+import { SettingContext } from './context/SettingsContext';
+import SetPomodoro from './components/SetPomodoro';
+import Button from './components/Button';
+import CountdownAnimation from './components/CountdownAnimation';
+
 function App() {
+  const {
+    pomodoro,
+    executing,
+    SetCurrentTimer,
+    SettingBtn,
+    children,
+    startAnimate,
+    startTimer,
+    pauseTimer,
+  } = useContext(SettingContext);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Pomodoro</h1>
+      {pomodoro === 0 ? (
+        <SetPomodoro />
+      ) : (
+        <Fragment>
+          <ul>
+            <li>
+              <Button
+                title="Work"
+                activeClass={
+                  executing.active === 'work' ? 'active-labels' : undefined
+                }
+                _callback={() => SetCurrentTimer('work')}
+              />
+            </li>
+            <li>
+              <Button
+                title="Short Break"
+                activeClass={
+                  executing.active === 'short' ? 'active-labels' : undefined
+                }
+                _callback={() => SetCurrentTimer('short')}
+              />
+            </li>
+            <li>
+              <Button
+                title="Long Break"
+                activeClass={
+                  executing.active === 'long' ? 'active-labels' : undefined
+                }
+                _callback={() => SetCurrentTimer('long')}
+              />
+            </li>
+          </ul>
+          <Button title="Settings" _callback={SettingBtn} />
+          <div>
+            <CountdownAnimation
+              key={pomodoro}
+              timer={pomodoro}
+              animate={startAnimate}
+            >
+              {children}
+            </CountdownAnimation>
+          </div>
+          <div>
+            <Button
+              title="Start"
+              activeClass={!startAnimate ? 'active' : undefined}
+              _callback={startTimer}
+            />
+            <Button
+              title="Start"
+              activeClass={startAnimate ? 'active' : undefined}
+              _callback={pauseTimer}
+            />
+          </div>
+        </Fragment>
+      )}
     </div>
   );
 }
