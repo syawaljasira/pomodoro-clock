@@ -29,7 +29,7 @@ function App() {
         <SetPomodoro />
       ) : (
         <Fragment>
-          <div className="container">
+          <div className="container bg-back">
             <div className="row vh-100 justify-content-center align-items-center">
               <div className="col-8">
                 <div className="row justify-content-center align-items-center">
