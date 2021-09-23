@@ -67,12 +67,19 @@ function App() {
                     />
                   </div>
                   <div className="col-10 mb-1 d-flex justify-content-center">
-                    <Button title="Settings" _callback={SettingBtn} />
+                    <Button
+                      buttonId="reset"
+                      title="Settings"
+                      _callback={SettingBtn}
+                    />
                   </div>
                   <div className="col-10 d-flex justify-content-center">
-                    <div className="time-wrapper rounded-pill d-flex align-items-center justify-content-center">
+                    <div
+                      id="time-left"
+                      className="time-wrapper rounded-pill d-flex align-items-center justify-content-center"
+                    >
                       <CountdownAnimation
-                        key={pomodoro}
+                        keys={pomodoro}
                         timer={pomodoro}
                         animate={startAnimate}
                       >
@@ -81,16 +88,23 @@ function App() {
                     </div>
                   </div>
                   <div className="col-10 d-flex justify-content-center align-items-center">
-                    <Button
-                      title="Start"
-                      activeClass={!startAnimate ? 'active' : undefined}
-                      _callback={startTimer}
-                    />
-                    <Button
-                      title="Pause"
-                      activeClass={startAnimate ? 'active' : undefined}
-                      _callback={pauseTimer}
-                    />
+                    {startAnimate === false ? (
+                      <Button
+                        buttonId="start_stop"
+                        title="Start"
+                        activeClass={startAnimate ? 'active-labels' : undefined}
+                        _callback={startTimer}
+                      />
+                    ) : (
+                      <Button
+                        buttonId="start_stop"
+                        title="Pause"
+                        activeClass={
+                          !startAnimate ? 'active-labels' : undefined
+                        }
+                        _callback={pauseTimer}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
