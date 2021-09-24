@@ -1,14 +1,18 @@
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 
-$night-blue: #6f69ac;
+$night-blue: #4f4990;
 $gray: #2d2d2d;
 $light-gray: #373737;
-$light-blue: #37384c;
-$black: #0c0e1b;
-$text: #c9ccea;
+$bold-blue: #0f1222;
+$black: #191e3d;
+$text: #d5d7f1;
 
 .bg-back {
-  background-color: $gray;
+  background: radial-gradient(
+    circle,
+    rgba(6, 5, 28, 1) 0%,
+    rgba(26, 15, 50, 1) 79%
+  );
 }
 
 .bg-black {
@@ -17,7 +21,7 @@ $text: #c9ccea;
 }
 
 .bg-back-light {
-  background-color: $light-gray;
+  background-color: $night-blue;
 }
 
 .bg-night {
@@ -29,16 +33,16 @@ $text: #c9ccea;
 }
 
 .active-labels {
-  color: #0c0e1b;
-  background-color: #fe6f6b;
+  color: $text;
+  background-color: $night-blue;
 }
 
 .time-wrapper {
-  height: 13.3rem;
-  width: 13.3rem;
-  color: #efefef;
-  background: #151932;
-  font-size: 3.5rem;
+  height: 12rem;
+  width: 12rem;
+  color: $text;
+  background: $black;
+  font-size: 3.2rem;
   box-shadow: 1rem 1.5rem 2rem rgba(0, 0, 0, 0.6);
 }
 
@@ -67,9 +71,21 @@ button {
 }
 .input {
   color: $text;
-  height: 125px;
-  width: 125px;
-  background-color: $light-gray;
+  height: 90px;
+  width: 90px;
+  background-color: $night-blue;
   border: none;
   font-size: 22px;
+}
+
+.btn-level {
+  width: 50px;
+  height: 50px;
+  padding: 0.5rem;
+  color: #efefef;
+  font-size: 1.3rem;
+  border: none;
+  margin: 0.2rem;
+  background: $black;
+  cursor: pointer;
 }

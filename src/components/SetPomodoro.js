@@ -1,138 +1,186 @@
-import React, { useContext, useState } from 'react';
-import { SettingContext } from '../context/SettingsContext';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { FiRefreshCw } from 'react-icons/fi';
+
+import Button from './Button';
+import Countdown from './Countdown';
+import Timer from './Timer';
 
 import TimerLengthControl from './TimerLengthControl';
 
 const SetPomodoro = () => {
-  const { updateExecute } = useContext(SettingContext);
+  // Session
+  const [sessionLength, setSessionLength] = useState(25);
 
-  const [newTimer, setNewTimer] = useState({
-    work: 25,
-    short: 5,
-    long: 30,
-    active: 'work',
-  });
-
-  const handleChange = (ev) => {
-    const { name, value } = ev.target;
-
-    switch (name) {
-      case 'work':
-        setNewTimer({
-          ...newTimer,
-          work: parseInt(value),
-        });
-        break;
-      case 'shortBreak':
-        setNewTimer({
-          ...newTimer,
-          short: parseInt(value),
-        });
-        break;
-      case 'longBreak':
-        setNewTimer({
-          ...newTimer,
-          long: parseInt(value),
-        });
-        break;
-
-      default:
-        break;
+  const incrementSession = () => {
+    if (!isRunning && sessionLength < 60) {
+      setSessionLength(sessionLength + 1);
+      setTimer(sessionLength * 60 + 60);
     }
-    console.log(newTimer);
   };
 
-  const handleSubmit = (ev) => {
-    ev.preventDefault();
-    updateExecute(newTimer);
-  };
-
-  const SetWorkLength = (e) => {
-    lengthControl('work', e.currentTarget.value, newTimer.work);
-  };
-
-  const SetShortLength = (e) => {
-    lengthControl('short', e.currentTarget.value, newTimer.short);
-  };
-
-  const SetLongLength = (e) => {
-    lengthControl('long', e.currentTarget.value, newTimer.long);
-  };
-
-  const lengthControl = (stateToChange, sign, currentLength) => {
-    if (sign === '-' && currentLength !== 1) {
-      setNewTimer({ ...newTimer, [stateToChange]: currentLength - 1 });
-    } else if (sign === '+' && currentLength !== 60) {
-      setNewTimer({ ...newTimer, [stateToChange]: currentLength + 1 });
+  const decrementSession = () => {
+    if (!isRunning && sessionLength > 1) {
+      setSessionLength(sessionLength - 1);
+      setTimer(sessionLength * 60 - 60);
     }
+  };
+
+  // Break
+  const [breakLength, setBreakLength] = useState(5);
+
+  const incrementBreak = () => {
+    if (!isRunning && breakLength < 60) {
+      setBreakLength(breakLength + 1);
+    }
+  };
+
+  const decrementBreak = () => {
+    if (!isRunning && breakLength > 1) {
+      setBreakLength(breakLength - 1);
+    }
+  };
+
+  // Timer
+  const [isRunning, setIsRunning] = useState(false);
+  const [timer, setTimer] = useState(1500);
+  const [timerType, setTimerType] = useState('Session');
+
+  // Audio
+  const audioRing = useRef();
+
+  useEffect(() => {
+    // Switch
+    const switchControl = () => {
+      if (timerType === 'Session') {
+        setTimer(breakLength * 60);
+        setTimerType('Break');
+      } else {
+        setTimer(sessionLength * 60);
+        setTimerType('Session');
+      }
+    };
+
+    // Interval
+    let intervalID = null;
+    if (isRunning) {
+      if (timer > 0) {
+        intervalID = setTimeout(() => {
+          setTimer((timer) => timer - 1);
+        }, 1000);
+      } else {
+        switchControl();
+        clearTimeout(intervalID);
+        audioRing.current.play();
+
+        setIsRunning(true);
+      }
+    } else if (!isRunning && timer !== 0) {
+      clearTimeout(intervalID);
+    }
+
+    // Cleanup
+    return () => clearTimeout(intervalID);
+  }, [breakLength, isRunning, sessionLength, timer, timerType]);
+
+  // Start
+  const startTimer = () => {
+    setIsRunning(true);
+  };
+
+  // Stop
+  const stopTimer = () => {
+    setIsRunning(false);
+  };
+
+  // Reset
+  const resetTimer = () => {
+    setIsRunning(false);
+    setTimer(1500);
+    setTimerType('Session');
+    setSessionLength(25);
+    setBreakLength(5);
+    audioRing.current.pause();
+    audioRing.current.currentTime = 0;
   };
 
   return (
-    <div className="container">
-      <div className="row vh-100 justify-content-center align-items-center">
-        <div className="col-8">
-          <div
-            className="row justify-content-center align-items-center"
-            noValidate
-          >
-            <div className="col-10 bg-back-light rounded-pill text-gray text-center mb-4 py-4">
-              <h1>Pomodoro Clock</h1>
-              <small>Be productive the right way.</small>
+    <Fragment>
+      <div className="container">
+        <div className="row justify-content-center align-items-center">
+          <div className="col-8 bg-back-light rounded-pill text-gray text-center my-1 py-3">
+            <h2>Pomodoro Clock</h2>
+            <small>Be productive the right way.</small>
+          </div>
+          <div className="col-6 text-center ">
+            <div className="d-block text-gray fs-5" id="session-label">
+              Session Length
             </div>
-            <div
-              id="timer-label"
-              className="col-4 text-center d-flex-block align-items-center"
-            >
-              <TimerLengthControl
-                labelId="session-label"
-                label="Work Session"
-                name="work"
-                onChange={handleChange}
-                value={newTimer.work}
-                onClick={SetWorkLength}
-                length={newTimer.work}
-                addId="session-increment"
-                minId="session-decrement"
-                lengthId="session-length"
-              />
+            <TimerLengthControl
+              increment={incrementSession}
+              decrement={decrementSession}
+              length={sessionLength}
+              lengthId="session-length"
+              addId="session-increment"
+              minId="session-decrement"
+            />
+          </div>
+          <div className="col-6 text-center">
+            <div className="d-block text-gray fs-5" id="break-label">
+              Break Length
             </div>
-            <div className="col-4 text-center">
-              <TimerLengthControl
-                labelId="break-label"
-                label="Short Break"
-                name="short"
-                onChange={handleChange}
-                value={newTimer.short}
-                onClick={SetShortLength}
-                length={newTimer.short}
-                addId="break-increment"
-                minId="break-decrement"
-                lengthId="break-length"
-              />
-            </div>
-            <div className="col-4 text-center">
-              <TimerLengthControl
-                labelId="long-break-label"
-                label="Long Break"
-                name="long"
-                onChange={handleChange}
-                value={newTimer.long}
-                onClick={SetLongLength}
-                length={newTimer.long}
-                addId="longbreak-increment"
-                minId="longbreak-decrement"
-                lengthId="longbreak-length"
-              />
-            </div>
-            <div className="mt-4 col-8  text-center">
-              <button type="button" onClick={handleSubmit}>
-                Set Timer
-              </button>
-            </div>
+            <TimerLengthControl
+              increment={incrementBreak}
+              decrement={decrementBreak}
+              length={breakLength}
+              lengthId="break-length"
+              addId="break-increment"
+              minId="break-decrement"
+            />
           </div>
         </div>
       </div>
-    </div>
+      <div className="row justify-content-center align-items-center">
+        <Countdown
+          timeLeftId="time-left"
+          timerLabelId="timer-label"
+          timerType={timerType}
+          timer={Timer(timer)}
+        />
+        <div
+          id="timer-control"
+          className="col-10 d-flex justify-content-center align-items-center"
+        >
+          {!isRunning ? (
+            <Button
+              buttonId="start_stop"
+              activeClass="active-labels"
+              _callback={startTimer}
+              title={'Start'}
+            />
+          ) : (
+            <Button
+              buttonId="start_stop"
+              activeClass="active-labels"
+              _callback={stopTimer}
+              title={'Stop'}
+            />
+          )}
+
+          <button
+            id="reset"
+            className="btn-level rounded-pill"
+            onClick={resetTimer}
+          >
+            <FiRefreshCw />
+          </button>
+        </div>
+      </div>
+      <audio
+        id="beep"
+        ref={audioRing}
+        src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
+      />
+    </Fragment>
   );
 };
 
