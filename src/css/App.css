@@ -10752,26 +10752,21 @@ textarea.form-control-lg {
 .active-labels {
   color: #d5d7f1;
   background-color: #4f4990;
+  border: none;
 }
 
 .time-wrapper {
-  height: 12rem;
-  width: 12rem;
+  min-width: 10rem;
+  min-height: 10rem;
   color: #d5d7f1;
   background: #191e3d;
-  font-size: 3.2rem;
+  font-size: 2.5rem;
   box-shadow: 1rem 1.5rem 2rem rgba(0, 0, 0, 0.6);
 }
 
 button {
   color: #efefef;
-  font-size: 0.95rem;
-  padding: 0.7rem 1.5rem;
-  border: none;
-  border-radius: 3rem;
-  margin: 0.2rem;
   background: #0c0e1b;
-  min-width: 80px;
   cursor: pointer;
 }
 
@@ -10785,27 +10780,86 @@ button {
   text-align: center;
 }
 
-.input-wrapper {
-  margin: 1.5rem;
-}
-
 .input {
   color: #d5d7f1;
-  height: 90px;
-  width: 90px;
   background-color: #4f4990;
-  border: none;
-  font-size: 22px;
 }
 
 .btn-level {
-  width: 50px;
-  height: 50px;
-  padding: 0.5rem;
-  color: #efefef;
-  font-size: 1.3rem;
-  border: none;
-  margin: 0.2rem;
+  color: #d5d7f1;
   background: #191e3d;
   cursor: pointer;
+  border: none;
+  font-size: 1.3rem;
+}
+
+.btn-level:hover {
+  background-color: #262d57;
+}
+
+.active-labels:hover {
+  background-color: #635cad;
+}
+
+#title-header {
+  color: #d5d7f1;
+}
+
+@media (min-width: 640px) {
+  .btn-level {
+    font-size: calc(1.265rem + 0.18vw);
+  }
+}
+@media (min-width: 640px) and (min-width: 1200px) {
+  .btn-level {
+    font-size: 1.4rem;
+  }
+}
+@media (min-width: 640px) {
+  .title-resp {
+    font-size: 1.1rem;
+  }
+}
+@media (min-width: 640px) {
+  .tx-resp {
+    font-size: calc(1.285rem + 0.42vw);
+  }
+}
+@media (min-width: 640px) and (min-width: 1200px) {
+  .tx-resp {
+    font-size: 1.6rem;
+  }
+}
+@media (min-width: 640px) {
+  .active-labels {
+    font-size: 1.1rem;
+  }
+}
+@media (min-width: 640px) {
+  #title-header > h2, #title-header > .h2 {
+    font-size: calc(1.325rem + 0.9vw);
+  }
+}
+@media (min-width: 640px) and (min-width: 1200px) {
+  #title-header > h2, #title-header > .h2 {
+    font-size: 2rem;
+  }
+}
+@media (min-width: 640px) {
+  #timer-label > div > h5, #timer-label > div > .h5 {
+    font-size: calc(1.285rem + 0.42vw);
+    padding: 0.3rem 0.6rem 0.3rem 0.6rem;
+  }
+}
+@media (min-width: 640px) and (min-width: 1200px) {
+  #timer-label > div > h5, #timer-label > div > .h5 {
+    font-size: 1.6rem;
+  }
+}
+@media (min-width: 640px) {
+  .time-wrapper {
+    min-width: 12rem;
+    min-height: 12rem;
+    font-size: 2.8rem;
+  }
 }

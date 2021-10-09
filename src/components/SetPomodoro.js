@@ -105,41 +105,35 @@ const SetPomodoro = () => {
 
   return (
     <Fragment>
-      <div className="container">
-        <div className="row justify-content-center align-items-center">
-          <div className="col-8 bg-back-light rounded-pill text-gray text-center my-1 py-3">
-            <h2>Pomodoro Clock</h2>
-            <small>Be productive the right way.</small>
+      <div className="row pt-3 justify-content-center">
+        <div className="col-5 d-flex flex-column text-center px-1 me-auto">
+          <div className="title-resp text-gray" id="session-label">
+            Session Length
           </div>
-          <div className="col-6 text-center ">
-            <div className="d-block text-gray fs-5" id="session-label">
-              Session Length
-            </div>
-            <TimerLengthControl
-              increment={incrementSession}
-              decrement={decrementSession}
-              length={sessionLength}
-              lengthId="session-length"
-              addId="session-increment"
-              minId="session-decrement"
-            />
+          <TimerLengthControl
+            increment={incrementSession}
+            decrement={decrementSession}
+            length={sessionLength}
+            lengthId="session-length"
+            addId="session-increment"
+            minId="session-decrement"
+          />
+        </div>
+        <div className="col-5 d-flex flex-column text-center px-1">
+          <div className="title-resp text-gray" id="break-label">
+            Break Length
           </div>
-          <div className="col-6 text-center">
-            <div className="d-block text-gray fs-5" id="break-label">
-              Break Length
-            </div>
-            <TimerLengthControl
-              increment={incrementBreak}
-              decrement={decrementBreak}
-              length={breakLength}
-              lengthId="break-length"
-              addId="break-increment"
-              minId="break-decrement"
-            />
-          </div>
+          <TimerLengthControl
+            increment={incrementBreak}
+            decrement={decrementBreak}
+            length={breakLength}
+            lengthId="break-length"
+            addId="break-increment"
+            minId="break-decrement"
+          />
         </div>
       </div>
-      <div className="row justify-content-center align-items-center">
+      <div className="row pt-2 justify-content-center align-items-center">
         <Countdown
           timeLeftId="time-left"
           timerLabelId="timer-label"
@@ -148,19 +142,19 @@ const SetPomodoro = () => {
         />
         <div
           id="timer-control"
-          className="col-10 d-flex justify-content-center align-items-center"
+          className="col-10 mt-3 d-flex justify-content-center align-items-center"
         >
           {!isRunning ? (
             <Button
               buttonId="start_stop"
-              activeClass="active-labels"
+              activeClass="active-labels me-3 px-3 py-1 rounded-pill"
               _callback={startTimer}
               title={'Start'}
             />
           ) : (
             <Button
               buttonId="start_stop"
-              activeClass="active-labels"
+              activeClass="active-labels me-3 px-3 py-1 rounded-pill"
               _callback={stopTimer}
               title={'Stop'}
             />
@@ -168,7 +162,7 @@ const SetPomodoro = () => {
 
           <button
             id="reset"
-            className="btn-level rounded-pill"
+            className="active-labels py-1 px-2 rounded-circle"
             onClick={resetTimer}
           >
             <FiRefreshCw />
